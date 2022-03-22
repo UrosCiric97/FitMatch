@@ -12,6 +12,8 @@ namespace Domain
         public string Name { get; set; }
         public string Bio { get; set; }
 		public Role Role { get; set; }
+		public List<Schedule> TrainersSchedule { get; set; }
+		public List<Schedule> ClientsSchedule { get; set; }
 		public List<Package> Packages { get; set; }
         public List<Review> ClientReviews { get; set; }
         public List<Review> TrainerReviews { get; set; }

@@ -122,6 +122,8 @@ namespace Persistence
                 .WithMany(c => c.ClientFollowings)
                 .HasForeignKey(t => t.TrainerId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            // napraviti za schedule
         }
 
     }

@@ -100,18 +100,18 @@ namespace API.Controllers
             }
             return NotFound();
         }
-        // filteri
-        /*[HttpGet("filter")]
-        public async Task<IActionResult> GetUsersPaginated(FilterDTO filterDTO)
-        {
-            var query = _context.Users.Where(x => x. == filterDTO.);
-            if(filterDTO.Bio != null)
-            {
-                query = query.Where(x => x.Bio == filterDTO.Bio);
-            }
-            return Ok(await query.ToListAsync());
-        }*/
-        [HttpPost("follow")]
+		// filteri
+		[HttpGet("filter")]
+		public async Task<IActionResult> GetUsersPaginated(Role role, FilterDTO filterDTO)
+		{
+            var query = _context.Users
+                .Where(x => x.Role == role)
+                .Skip((filterDTO.PageNumber - 1) * filterDTO.PageSize)
+                .Take(filterDTO.PageSize);
+
+			return Ok(await query.ToListAsync());
+		}
+		[HttpPost("follow")]
         public async Task<IActionResult> FollowToggle(UserFollowing userFollowing)
         {
             // 1. da li postoji pracenje?
