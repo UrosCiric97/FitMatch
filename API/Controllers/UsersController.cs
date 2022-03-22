@@ -101,16 +101,16 @@ namespace API.Controllers
             return NotFound();
         }
         // filteri
-        [HttpGet("filter")]
+        /*[HttpGet("filter")]
         public async Task<IActionResult> GetUsersPaginated(FilterDTO filterDTO)
         {
-            var query = _context.Users.Where(x => x.Name == filterDTO.Name);
+            var query = _context.Users.Where(x => x. == filterDTO.);
             if(filterDTO.Bio != null)
             {
                 query = query.Where(x => x.Bio == filterDTO.Bio);
             }
             return Ok(await query.ToListAsync());
-        }
+        }*/
         [HttpPost("follow")]
         public async Task<IActionResult> FollowToggle(UserFollowing userFollowing)
         {

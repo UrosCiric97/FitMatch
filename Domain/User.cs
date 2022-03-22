@@ -11,7 +11,8 @@ namespace Domain
         public int Id { get; set; }
         public string Name { get; set; }
         public string Bio { get; set; }
-        public List<Package> Packages { get; set; }
+		public Role Role { get; set; }
+		public List<Package> Packages { get; set; }
         public List<Review> ClientReviews { get; set; }
         public List<Review> TrainerReviews { get; set; }
         public List<UserSkill> Skills { get; set; }

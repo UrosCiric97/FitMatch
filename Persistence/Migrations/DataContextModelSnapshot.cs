@@ -151,6 +151,21 @@ namespace Persistence.Migrations
                     b.ToTable("Reviews");
                 });
 
+            modelBuilder.Entity("Domain.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
+                });
+
             modelBuilder.Entity("Domain.Skill", b =>
                 {
                     b.Property<int>("Id")
@@ -194,7 +209,12 @@ namespace Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -371,6 +391,15 @@ namespace Persistence.Migrations
                     b.Navigation("Skill");
                 });
 
+            modelBuilder.Entity("Domain.User", b =>
+                {
+                    b.HasOne("Domain.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId");
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Domain.UserCategory", b =>
                 {
                     b.HasOne("Domain.Category", "Category")
@@ -457,6 +486,11 @@ namespace Persistence.Migrations
                 {
                     b.Navigation("Skills");
 
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Domain.Role", b =>
+                {
                     b.Navigation("Users");
                 });
 
