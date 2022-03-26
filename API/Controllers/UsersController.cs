@@ -36,7 +36,7 @@ namespace API.Controllers
             }
             return Ok(result);
         }
-        [HttpGet("{userWithPosts}")]
+        [HttpGet("userWithPosts")]
         public async Task<IActionResult> GetUserWithPosts(int id)
         {
             var result = await _userRepository.GetUserWithPostsAsync(x => x.Id == id);
@@ -101,7 +101,7 @@ namespace API.Controllers
             return NotFound();
         }
 		// filteri
-		[HttpGet("filter")]
+		/*[HttpGet("filter")]
 		public async Task<IActionResult> GetUsersPaginated(Role role, FilterDTO filterDTO)
 		{
             var query = _context.Users
@@ -110,7 +110,11 @@ namespace API.Controllers
                 .Take(filterDTO.PageSize);
 
 			return Ok(await query.ToListAsync());
-		}
+		}*/
+
+
+        // proveriti metodu iznad
+        // proveriti i napraviti 2 liste u DbSet
 		[HttpPost("follow")]
         public async Task<IActionResult> FollowToggle(UserFollowing userFollowing)
         {
@@ -157,6 +161,26 @@ namespace API.Controllers
                 return NotFound();
             }
             return Ok(listOfFollowers);
+        }
+        [HttpPost("schedule")]
+        public async Task<IActionResult> AddSchedule(Schedule schedule)
+        {
+            var result = await _context.Schedules.AddAsync(schedule);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok();
+        }
+        [HttpGet("getUsersWithSchedule")]
+        public async Task<IActionResult> GetUsersWithSchedule(int trainerId)
+        {
+            var result = await _context.Schedules.Where(x => x.TrainerId == trainerId).ToListAsync();
+            if (result.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
     }
 }
