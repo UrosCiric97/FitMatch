@@ -26,6 +26,7 @@ namespace Persistence
         public DbSet<Mentorship> Mentorships { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<UserFollowing> UserFollowings { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -123,7 +124,18 @@ namespace Persistence
                 .HasForeignKey(t => t.TrainerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // napraviti za schedule
+            modelBuilder.Entity<Schedule>(x => x.HasKey(s => new { s.ClientId, s.TrainerId }));
+
+            modelBuilder.Entity<Schedule>()
+                .HasOne(cl => cl.Client)
+                .WithMany(tr => tr.TrainersSchedule)
+                .HasForeignKey(c => c.ClientId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Schedule>()
+                .HasOne(tr => tr.Trainer)
+                .WithMany(cl => cl.ClientsSchedule)
+                .HasForeignKey(t => t.TrainerId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
 
     }

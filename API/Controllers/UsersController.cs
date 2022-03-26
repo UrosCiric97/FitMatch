@@ -36,7 +36,7 @@ namespace API.Controllers
             }
             return Ok(result);
         }
-        [HttpGet("{userWithPosts}")]
+        [HttpGet("userWithPosts")]
         public async Task<IActionResult> GetUserWithPosts(int id)
         {
             var result = await _userRepository.GetUserWithPostsAsync(x => x.Id == id);
@@ -102,15 +102,18 @@ namespace API.Controllers
         }
 		// filteri
 		[HttpGet("filter")]
-		public async Task<IActionResult> GetUsersPaginated(Role role, FilterDTO filterDTO)
+		public async Task<IActionResult> GetUsersPaginated(FilterDTO filterDTO)
 		{
-            var query = _context.Users
-                .Where(x => x.Role == role)
-                .Skip((filterDTO.PageNumber - 1) * filterDTO.PageSize)
-                .Take(filterDTO.PageSize);
+			var query = _context.Users
+				.Where(x => x.Role == filterDTO.Role)
+				.Skip((filterDTO.PageNumber - 1) * filterDTO.PageSize)
+				.Take(filterDTO.PageSize);
 
 			return Ok(await query.ToListAsync());
 		}
+
+
+		// proveriti i napraviti 2 liste u DbSet
 		[HttpPost("follow")]
         public async Task<IActionResult> FollowToggle(UserFollowing userFollowing)
         {
@@ -157,6 +160,28 @@ namespace API.Controllers
                 return NotFound();
             }
             return Ok(listOfFollowers);
+        }
+        [HttpPost("schedule")]
+        public async Task<IActionResult> AddSchedule(ScheduleDTO schedule)
+        {
+            var result = _context.Schedules.Add(_mapper.Map<Schedule>(schedule));
+            
+            await _context.SaveChangesAsync();
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok();
+        }
+        [HttpGet("getUsersWithSchedule")]
+        public async Task<IActionResult> GetUsersWithSchedule(int trainerId)
+        {
+            var result = await _context.Schedules.Where(x => x.TrainerId == trainerId).ToListAsync();
+            if (result.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
     }
 }

@@ -5803,11 +5803,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Stefan\\Source\\Repos\\FitMatch\\Domain\\Domain.csproj",
+      "projectUniqueName": "C:\\Users\\Stefan\\source\\repos\\FitMatch\\Domain\\Domain.csproj",
       "projectName": "Domain",
-      "projectPath": "C:\\Users\\Stefan\\Source\\Repos\\FitMatch\\Domain\\Domain.csproj",
+      "projectPath": "C:\\Users\\Stefan\\source\\repos\\FitMatch\\Domain\\Domain.csproj",
       "packagesPath": "C:\\Users\\Stefan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Stefan\\Source\\Repos\\FitMatch\\Domain\\obj\\",
+      "outputPath": "C:\\Users\\Stefan\\source\\repos\\FitMatch\\Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Stefan\\AppData\\Roaming\\NuGet\\NuGet.Config",

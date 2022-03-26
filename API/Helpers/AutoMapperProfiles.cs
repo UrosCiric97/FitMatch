@@ -19,6 +19,7 @@ namespace API.Helpers
             CreateMap<SkillDTO, Skill>();
             CreateMap<PostDTO, Post>();
             CreateMap<Review, ReviewDTO>();
+            CreateMap<ScheduleDTO, Schedule>();
         }
     }
 }
