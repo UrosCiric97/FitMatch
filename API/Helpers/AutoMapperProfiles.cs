@@ -15,11 +15,14 @@ namespace API.Helpers
             CreateMap<CategoryDTO, Category>();
             CreateMap<Category, CategoryDTO>();
             CreateMap<UserDTO, User>();
+            CreateMap<User, UserDTO>();
             CreateMap<PackageDTO, Package>();
             CreateMap<SkillDTO, Skill>();
             CreateMap<PostDTO, Post>();
             CreateMap<Review, ReviewDTO>();
             CreateMap<ScheduleDTO, Schedule>();
+            CreateMap<TrainerAvailableSessionsDTO, TrainerAvailableSessions>();
+            CreateMap<ScheduleDTO, TrainerAvailableSessions>();
         }
     }
 }

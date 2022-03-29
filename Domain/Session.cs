@@ -9,6 +9,7 @@ namespace Domain
 	public class Session
 	{
 		public int Id { get; set; }
-		public DateTime DateTime { get; set; }
-	}
+        public DateTime DateTime { get; set; }
+        public List<TrainerAvailableSessions> Trainers { get; set; }
+    }
 }

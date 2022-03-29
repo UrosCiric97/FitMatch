@@ -35,6 +35,7 @@ namespace Domain
         public List<Message> TrainerMessages { get; set; }
         public List<UserFollowing> ClientFollowings { get; set; }
         public List<UserFollowing> TrainerFollowings { get; set; }
+        public List<TrainerAvailableSessions> Sessions{ get; set; }
 
 
     }

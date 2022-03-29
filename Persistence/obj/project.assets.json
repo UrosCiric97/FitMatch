@@ -5926,19 +5926,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Stefan\\.nuget\\packages\\": {}
+    "C:\\Users\\PC\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Stefan\\source\\repos\\FitMatch\\Persistence\\Persistence.csproj",
+      "projectUniqueName": "C:\\Users\\PC\\source\\repos\\FitMatch\\Persistence\\Persistence.csproj",
       "projectName": "Persistence",
-      "projectPath": "C:\\Users\\Stefan\\source\\repos\\FitMatch\\Persistence\\Persistence.csproj",
-      "packagesPath": "C:\\Users\\Stefan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Stefan\\source\\repos\\FitMatch\\Persistence\\obj\\",
+      "projectPath": "C:\\Users\\PC\\source\\repos\\FitMatch\\Persistence\\Persistence.csproj",
+      "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\PC\\source\\repos\\FitMatch\\Persistence\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Stefan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5952,8 +5952,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\Stefan\\source\\repos\\FitMatch\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\Stefan\\source\\repos\\FitMatch\\Domain\\Domain.csproj"
+            "C:\\Users\\PC\\source\\repos\\FitMatch\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\PC\\source\\repos\\FitMatch\\Domain\\Domain.csproj"
             }
           }
         }
@@ -6008,7 +6008,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
       }
     }
   }

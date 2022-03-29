@@ -1,5 +1,6 @@
 ﻿using API.DTOs;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -177,6 +178,17 @@ namespace API.Controllers
         public async Task<IActionResult> GetUsersWithSchedule(int trainerId)
         {
             var result = await _context.Schedules.Where(x => x.TrainerId == trainerId).ToListAsync();
+            if (result.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+        [HttpGet("get/{id}")]
+        public async Task<IActionResult> GetUserWith (int id)
+        {
+            var result = await _context.Users.Where(x => x.Id == id)
+            .Select(x => new { x.Name, x.Skills, x.Categories, x.Clients }).ToListAsync();
             if (result.Count == 0)
             {
                 return NotFound();
