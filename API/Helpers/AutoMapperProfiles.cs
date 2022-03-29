@@ -21,8 +21,8 @@ namespace API.Helpers
             CreateMap<PostDTO, Post>();
             CreateMap<Review, ReviewDTO>();
             CreateMap<ScheduleDTO, Schedule>();
-            CreateMap<TrainerAvailableSessionsDTO, TrainerAvailableSessions>();
-            CreateMap<ScheduleDTO, TrainerAvailableSessions>();
+            CreateMap<ScheduleSessionDTO, ScheduleSessionDTO>();
+            CreateMap<ScheduleSessionDTO, TrainerAvailableSessions>();
         }
     }
 }

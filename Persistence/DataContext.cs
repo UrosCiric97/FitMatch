@@ -147,7 +147,7 @@ namespace Persistence
             modelBuilder.Entity<TrainerAvailableSessions>()
                 .HasOne(s => s.Session)
                 .WithMany(t => t.Trainers)
-                .HasForeignKey(t => t.TrainerId);
+                .HasForeignKey(t => t.SessionId);
 
 
         }

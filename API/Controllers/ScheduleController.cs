@@ -24,7 +24,7 @@ namespace API.Controllers
 			_mapper = mapper;
 		}
 		[HttpPost]
-		public async Task<IActionResult> TrainerAddSchedule(TrainerAvailableSessionsDTO session)
+		public async Task<IActionResult> TrainerAddSchedule(ScheduleSessionDTO session)
         {
 			_context.TrainerAvailableSessions.Add(_mapper.Map<TrainerAvailableSessions> (session));
             if (await _context.SaveChangesAsync() > 0)
@@ -33,12 +33,12 @@ namespace API.Controllers
             }
 			return NotFound();
         }
-		[HttpPost]
-		public async Task<IActionResult> ClientCreateSession(ScheduleDTO scheduleDTO)
+		[HttpPost("add")]
+		public async Task<IActionResult> ClientCreateSession(ScheduleSessionDTO sessionsDTO)
         {
-			if (_context.TrainerAvailableSessions.Contains(_mapper.Map<TrainerAvailableSessions>(scheduleDTO)))
+			if (_context.TrainerAvailableSessions.Contains(_mapper.Map<TrainerAvailableSessions>(sessionsDTO)))
             {
-				_context.Schedules.Add(_mapper.Map<Schedule>(scheduleDTO));
+				_context.Schedules.Add(_mapper.Map<Schedule>(sessionsDTO));
                 if (await _context.SaveChangesAsync() > 0)
                 {
 					return Ok();
