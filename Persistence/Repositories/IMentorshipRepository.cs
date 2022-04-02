@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Persistence.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace Persistence.Repositories
 {
     public interface IMentorshipRepository : IRepository<Mentorship>
     {
+        Task<bool> IncrementFinishedSessions(MentorshipDTO mentorship);
     }
 }

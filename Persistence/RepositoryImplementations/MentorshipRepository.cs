@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain;
 using Microsoft.EntityFrameworkCore;
+using Persistence.DTOs;
 using Persistence.Repositories;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Persistence.RepositoryImplementations
 {
     public class MentorshipRepository : Repository<Mentorship>, IMentorshipRepository
     {
-        private DbContext _context;
+        private DataContext _context;
         private IMapper _mapper;
 
         public MentorshipRepository(DataContext context, IMapper mapper) : base (context, mapper)
@@ -20,5 +21,13 @@ namespace Persistence.RepositoryImplementations
             _context = context;
             _mapper = mapper;
         }
-    }
+
+        public async Task<bool> IncrementFinishedSessions(MentorshipDTO mentorshipDTO)
+        {
+			var mentorship = await _context.Mentorships
+				.FirstOrDefaultAsync(x => x.ClientId == mentorshipDTO.ClientId && x.TrainerId == mentorshipDTO.TrainerId);
+			mentorship.NumberOfFinishedSessions++;
+            return await _context.SaveChangesAsync() > 0;
+		}
+	}
 }

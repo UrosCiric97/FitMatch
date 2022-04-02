@@ -12,5 +12,7 @@ namespace Domain
         public User Client { get; set; }
         public int TrainerId { get; set; }
         public User Trainer { get; set; }
-    }
+		public int NumberOfSessions { get; set; }
+		public int NumberOfFinishedSessions { get; set; }
+	}
 }

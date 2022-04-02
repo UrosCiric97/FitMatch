@@ -14,5 +14,6 @@ namespace Domain
         public bool IsAvailable { get; set; }
         public string Description { get; set; }
         public int DurationInMonths { get; set; }
-    }
+		public User Trainer { get; set; }
+	}
 }
