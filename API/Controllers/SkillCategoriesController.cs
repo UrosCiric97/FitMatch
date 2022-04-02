@@ -49,7 +49,7 @@ namespace API.Controllers
         public async Task<IActionResult> AddSkillCategory(SkillCategory skillCategory)
         {
             var result = await _skillCategoryRepository.AddAsync(skillCategory);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }
@@ -59,7 +59,7 @@ namespace API.Controllers
         public async Task<IActionResult> AddRange(IEnumerable<SkillCategory> skillCategories)
         {
             var result = await _skillCategoryRepository.AddRangeAsync(skillCategories);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }
@@ -69,7 +69,7 @@ namespace API.Controllers
         public async Task<IActionResult> Remove(SkillCategory skillCategory)
         {
             var result = await _skillCategoryRepository.RemoveAsync(skillCategory);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }
@@ -79,7 +79,7 @@ namespace API.Controllers
         public async Task<IActionResult> RemoveRange(IEnumerable<SkillCategory> skillCategories)
         {
             var result = await _skillCategoryRepository.RemoveRangeAsync(skillCategories);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }

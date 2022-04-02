@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-	public class TrainerAvailableSessions
+	public class TrainerAvailableSession
 	{
 		public int TrainerId { get; set; }
 		public int SessionId { get; set; }

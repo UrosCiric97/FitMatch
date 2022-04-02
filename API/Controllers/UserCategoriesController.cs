@@ -24,7 +24,7 @@ namespace API.Controllers
             _mapper = mapper;
             _context = context;
         }
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByCategoryId(int id)
         {
             var result = await _userCategoryRepository.GetAsync(x => x.CategoryId == id);
@@ -48,7 +48,7 @@ namespace API.Controllers
         public async Task<IActionResult> Add(UserCategory userCategory)
         {
             var result = await _userCategoryRepository.AddAsync(userCategory);
-            if (result == true)
+            if (result)
             {
                 return Ok();
             }
@@ -58,7 +58,27 @@ namespace API.Controllers
         public async Task<IActionResult> AddRange(IEnumerable<UserCategory> userCategories)
         {
             var result = await _userCategoryRepository.AddRangeAsync(userCategories);
-            if(result == true)
+            if(result)
+            {
+                return Ok();
+            }
+            return NotFound();
+        }
+        [HttpDelete]
+        public async Task<IActionResult> Remove(UserCategory userCategory)
+        {
+            var result = await _userCategoryRepository.RemoveAsync(userCategory);
+            if (result)
+            {
+                return Ok();
+            }
+            return NotFound();
+        }
+        [HttpDelete("removeRange")]
+        public async Task<IActionResult> RemoveRange(IEnumerable<UserCategory> userCategories)
+        {
+            var result = await _userCategoryRepository.RemoveRangeAsync(userCategories);
+            if (result)
             {
                 return Ok();
             }

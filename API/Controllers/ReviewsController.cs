@@ -46,7 +46,11 @@ namespace API.Controllers
        [HttpGet("{clientId}")]
        public async Task<IActionResult> GetReviewByClientID(int id)
         {
-            var result = await _context.Reviews.Where(x => x.ClientId == id).ProjectTo<ReviewDTO>(_mapper.ConfigurationProvider).ToListAsync();
+            var result = await _context.Reviews
+                .Where(x => x.ClientId == id)
+                .ProjectTo<ReviewDTO>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+
             if (!result.Any())
             {
                 return NotFound();
@@ -67,7 +71,7 @@ namespace API.Controllers
         public async Task<IActionResult> AddReview(Review review)
         {
             var result = await _reviewRepository.AddAsync(review);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }
@@ -77,7 +81,7 @@ namespace API.Controllers
         public async Task<IActionResult> AddRange(IEnumerable<Review> reviews)
         {
             var result = await _reviewRepository.AddRangeAsync(reviews);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }
@@ -87,7 +91,7 @@ namespace API.Controllers
         public async Task<IActionResult> RemoveReview(Review review)
         {
             var result = await _reviewRepository.RemoveAsync(review);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }
@@ -97,7 +101,7 @@ namespace API.Controllers
         public async Task<IActionResult> RemoveRange(IEnumerable<Review> reviews)
         {
             var result = await _reviewRepository.RemoveRangeAsync(reviews);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }

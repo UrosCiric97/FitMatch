@@ -10,6 +10,6 @@ namespace Domain
 	{
 		public int Id { get; set; }
         public DateTime DateTime { get; set; }
-        public List<TrainerAvailableSessions> Trainers { get; set; }
+        public List<TrainerAvailableSession> Trainers { get; set; }
     }
 }

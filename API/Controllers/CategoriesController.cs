@@ -62,18 +62,18 @@ namespace API.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> AddCategory(Category category)
         {
-            await _categoryRepository.AddAsync(category);
-            if (category == null)
+            var result = await _categoryRepository.AddAsync(category);
+            if (result)
             {
-                return NotFound();
+                return Ok();
             }
-            return Ok();
+            return NotFound();
         }
         [HttpPost("addRange")]
         public async Task<IActionResult> AddRangeAsync(IEnumerable<Category> categories)
         {
             var result = await _categoryRepository.AddRangeAsync(categories);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }
@@ -83,21 +83,21 @@ namespace API.Controllers
         public async Task<IActionResult> RemoveCategoryAsync(Category category)
         {
              var result = await _categoryRepository.RemoveAsync(category);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }
             return NotFound();
         }
         [HttpDelete("deleteRange")]
-        public async Task<bool> RemoveRange(IEnumerable<Category> categories)
+        public async Task<IActionResult> RemoveRange(IEnumerable<Category> categories)
         {
             var result = await _categoryRepository.RemoveRangeAsync(categories);
-            if(result == true)
+            if(result)
             {
-                return true;
+                return Ok();
             }
-            return false;
+            return NotFound();
         }
     }
 }

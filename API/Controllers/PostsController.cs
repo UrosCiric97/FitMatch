@@ -78,9 +78,9 @@ namespace API.Controllers
         public async Task<IActionResult> AddPost(Post post)
         {
             var result = await _postRepository.AddAsync(post);
-            if(result == true)
+            if(result)
             {
-                return Ok(result);
+                return Ok();
             }
             return NotFound();
         }
@@ -88,7 +88,7 @@ namespace API.Controllers
         public async Task<IActionResult> AddRange(IEnumerable<Post> posts)
         {
             var result = await _postRepository.AddRangeAsync(posts);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }
@@ -98,7 +98,7 @@ namespace API.Controllers
         public async Task<IActionResult> Remove(Post post)
         {
             var result = await _postRepository.RemoveAsync(post);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }
@@ -108,7 +108,7 @@ namespace API.Controllers
         public async Task<IActionResult> RemoveRange(IEnumerable<Post> posts)
         {
             var result = await _postRepository.RemoveRangeAsync(posts);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }

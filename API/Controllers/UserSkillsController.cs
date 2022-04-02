@@ -48,7 +48,7 @@ namespace API.Controllers
         public async Task<IActionResult> Add(UserSkill userSkill)
         {
             var result = await _userSkillRepository.AddAsync(userSkill);
-            if (result == true)
+            if (result)
             {
                 return Ok();
             }
@@ -58,7 +58,7 @@ namespace API.Controllers
         public async Task<IActionResult> AddRange(IEnumerable<UserSkill> userSkills)
         {
             var result = await _userSkillRepository.AddRangeAsync(userSkills);
-            if (result == true)
+            if (result)
             {
                 return Ok();
             }
@@ -68,7 +68,7 @@ namespace API.Controllers
         public async Task<IActionResult> Remove(UserSkill userSkill)
         {
             var result = await _userSkillRepository.RemoveAsync(userSkill);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }
@@ -78,7 +78,7 @@ namespace API.Controllers
         public async Task<IActionResult> RemoveRange(IEnumerable<UserSkill> userSkills)
         {
             var result = await _userSkillRepository.RemoveRangeAsync(userSkills);
-            if(result == true)
+            if(result)
             {
                 return Ok();
             }

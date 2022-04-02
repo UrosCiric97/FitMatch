@@ -37,7 +37,7 @@ namespace API.Controllers
             }
             return Ok(result);
         }
-        [HttpGet("userWithPosts")]
+        [HttpGet("userWithPosts/{id}")]
         public async Task<IActionResult> GetUserWithPosts(int id)
         {
             var result = await _userRepository.GetUserWithPostsAsync(x => x.Id == id);
@@ -61,7 +61,7 @@ namespace API.Controllers
         public async Task<IActionResult> AddUser(User user)
         {
             var result = await _userRepository.AddAsync(user);
-            if (result == true)
+            if (result)
             {
                 return Ok();
             }
@@ -75,7 +75,7 @@ namespace API.Controllers
                 return BadRequest("Cannot add more than 3 users at once");
             }
             var result = await _userRepository.AddRangeAsync(users);
-            if (result == true)
+            if (result)
             {
                 return Ok();
             }
@@ -85,7 +85,7 @@ namespace API.Controllers
         public async Task<IActionResult> Remove(User user)
         {
             var result = await _userRepository.RemoveAsync(user);
-            if (result == true)
+            if (result)
             {
                 return Ok();
             }
@@ -95,20 +95,20 @@ namespace API.Controllers
         public async Task<IActionResult> RemoveRange(IEnumerable<User> users)
         {
             var result = await _userRepository.RemoveRangeAsync(users);
-            if (result == true)
+            if (result)
             {
                 return Ok();
             }
             return NotFound();
         }
-		// filteri
 		[HttpGet("filter")]
 		public async Task<IActionResult> GetUsersPaginated(FilterDTO filterDTO)
 		{
 			var query = _context.Users
-				.Where(x => x.Role == filterDTO.Role)
+				.Where(x => x.Role.Name == filterDTO.RoleName)
 				.Skip((filterDTO.PageNumber - 1) * filterDTO.PageSize)
-				.Take(filterDTO.PageSize);
+				.Take(filterDTO.PageSize)
+                .ProjectTo<UserDTO>(_mapper.ConfigurationProvider);
 
 			return Ok(await query.ToListAsync());
 		}
@@ -116,12 +116,12 @@ namespace API.Controllers
 
 		// proveriti i napraviti 2 liste u DbSet
 		[HttpPost("follow")]
-        public async Task<IActionResult> FollowToggle(UserFollowing userFollowing)
+        public async Task<IActionResult> FollowToggle(FollowDTO followDTO)
         {
             // 1. da li postoji pracenje?
-            if (await _context.UserFollowings.AnyAsync())
+            if (await _context.UserFollowings.ContainsAsync(_mapper.Map<UserFollowing> (followDTO)))
             {
-                _context.UserFollowings.Remove(userFollowing);
+                _context.UserFollowings.Remove(_mapper.Map<UserFollowing> (followDTO));
                 var result = await _context.SaveChangesAsync();
                 if (result > 0)
                 {
@@ -131,7 +131,7 @@ namespace API.Controllers
             }
             else
             {
-                _context.UserFollowings.Add(userFollowing);
+                _context.UserFollowings.Add(_mapper.Map<UserFollowing> (followDTO));
                 var result = await _context.SaveChangesAsync();
 
                 if (result > 0)

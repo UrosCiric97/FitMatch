@@ -7,6 +7,7 @@ namespace API.DTOs
 {
     public class FollowDTO
     {
-        public bool Following { get; set; }
+        public int ClientId { get; set; }
+        public int TrainerId { get; set; }
     }
 }

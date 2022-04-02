@@ -10,6 +10,6 @@ namespace API.DTOs
     {
 		public int PageNumber { get; set; }
 		public int PageSize { get; set; }
-		public Role Role { get; set; }
+		public string RoleName { get; set; }
 	}
 }

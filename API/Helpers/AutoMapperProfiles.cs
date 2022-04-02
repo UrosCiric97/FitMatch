@@ -22,7 +22,9 @@ namespace API.Helpers
             CreateMap<Review, ReviewDTO>();
             CreateMap<ScheduleDTO, Schedule>();
             CreateMap<ScheduleSessionDTO, ScheduleSessionDTO>();
-            CreateMap<ScheduleSessionDTO, TrainerAvailableSessions>();
+            CreateMap<ScheduleSessionDTO, TrainerAvailableSession>();
+            CreateMap<FollowDTO, UserFollowing>();
+            CreateMap<MessageDTO, Message>();
         }
     }
 }

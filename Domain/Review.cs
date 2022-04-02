@@ -14,5 +14,6 @@ namespace Domain
         public User Trainer { get; set; }
         public string Text { get; set; }
         public int StarRating { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace Persistence
         public DbSet<Message> Messages { get; set; }
         public DbSet<UserFollowing> UserFollowings { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
-        public DbSet<TrainerAvailableSessions> TrainerAvailableSessions { get; set; }
+        public DbSet<TrainerAvailableSession> TrainerAvailableSessions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -138,16 +138,18 @@ namespace Persistence
                 .HasForeignKey(t => t.TrainerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<TrainerAvailableSessions>(x => x.HasKey(t => new { t.TrainerId, t.SessionId }));
+            modelBuilder.Entity<TrainerAvailableSession>(x => x.HasKey(t => new { t.TrainerId, t.SessionId }));
 
-            modelBuilder.Entity<TrainerAvailableSessions>()
+            modelBuilder.Entity<TrainerAvailableSession>()
                 .HasOne(t => t.Trainer)
                 .WithMany(s => s.Sessions)
-                .HasForeignKey(t => t.TrainerId);
-            modelBuilder.Entity<TrainerAvailableSessions>()
+                .HasForeignKey(t => t.TrainerId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<TrainerAvailableSession>()
                 .HasOne(s => s.Session)
                 .WithMany(t => t.Trainers)
-                .HasForeignKey(t => t.SessionId);
+                .HasForeignKey(t => t.SessionId)
+                .OnDelete(DeleteBehavior.NoAction);
 
 
         }

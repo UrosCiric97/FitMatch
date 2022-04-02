@@ -10,8 +10,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220329162145_AddScheduleMethods")]
-    partial class AddScheduleMethods
+    [Migration("20220402153509_AddCommentsController")]
+    partial class AddCommentsController
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,39 @@ namespace Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Domain.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReviewClientId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReviewTrainerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("ReviewClientId", "ReviewTrainerId");
+
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("Domain.Mentorship", b =>
@@ -233,7 +266,7 @@ namespace Persistence.Migrations
                     b.ToTable("SkillCategories");
                 });
 
-            modelBuilder.Entity("Domain.TrainerAvailableSessions", b =>
+            modelBuilder.Entity("Domain.TrainerAvailableSession", b =>
                 {
                     b.Property<int>("TrainerId")
                         .HasColumnType("int");
@@ -348,6 +381,27 @@ namespace Persistence.Migrations
                     b.HasIndex("SkillsSkillId", "SkillsCategoryId");
 
                     b.ToTable("SkillCategorySkillCategory");
+                });
+
+            modelBuilder.Entity("Domain.Comment", b =>
+                {
+                    b.HasOne("Domain.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId");
+
+                    b.HasOne("Domain.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId");
+
+                    b.HasOne("Domain.Review", "Review")
+                        .WithMany("Comments")
+                        .HasForeignKey("ReviewClientId", "ReviewTrainerId");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("Review");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Mentorship", b =>
@@ -465,12 +519,12 @@ namespace Persistence.Migrations
                     b.Navigation("Skill");
                 });
 
-            modelBuilder.Entity("Domain.TrainerAvailableSessions", b =>
+            modelBuilder.Entity("Domain.TrainerAvailableSession", b =>
                 {
                     b.HasOne("Domain.Session", "Session")
                         .WithMany("Trainers")
                         .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Domain.User", "Trainer")
@@ -582,6 +636,16 @@ namespace Persistence.Migrations
                     b.Navigation("Users");
                 });
 
+            modelBuilder.Entity("Domain.Post", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("Domain.Review", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
             modelBuilder.Entity("Domain.Role", b =>
                 {
                     b.Navigation("Users");
@@ -612,6 +676,8 @@ namespace Persistence.Migrations
                     b.Navigation("Clients");
 
                     b.Navigation("ClientsSchedule");
+
+                    b.Navigation("Comments");
 
                     b.Navigation("Mentorships");
 
