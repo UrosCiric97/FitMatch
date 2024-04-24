@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.Repositories;
 using Persistence.RepositoryImplementations;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+Log.Logger = new LoggerConfiguration()
+	.ReadFrom.Configuration(builder.Configuration).CreateLogger();
 
 var app = builder.Build();
 

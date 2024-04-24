@@ -14,78 +14,146 @@ namespace API.Controllers
 	{
 		private readonly IUserRepository _userRepository;
 		private readonly IMapper _mapper;
+		private readonly ILogger<User> _logger;
 
-		public UsersController(IUserRepository userRepository, IMapper mapper)
+		public UsersController(IUserRepository userRepository, IMapper mapper, ILogger<User> logger)
 		{
 			_userRepository = userRepository;
 			_mapper = mapper;
+			_logger = logger;
 		}
 		[HttpGet]
 		public async Task<ActionResult> GetAll()
 		{
-			var result = await _userRepository.GetAllAsync();
-			if (result.Any())
+			try
 			{
-				return Ok(result);
-			}
+				var result = await _userRepository.GetAllAsync();
+				if (result.Any())
+				{
+					return Ok(result);
+				}
 			return NotFound("No users found");
+			}
+			catch (Exception ex)
+			{
+				var currentUser = HttpContext.User;
+				var method = HttpContext.Request.Method;
+				var message = ex.Message;
+				_logger.LogError("The user {currentUser} triggered a {method} method and got the following exception message: {exception.Message}“", currentUser, method, message);
+				return StatusCode(500, ex.Message);
+			}
 		}
 		[HttpGet("filtered")]
 		public async Task<ActionResult> GetById(int userId)
 		{
-			var users = await _userRepository.GetFilteredAsync(x => x.Id == userId);
-			var user = users.FirstOrDefault();
-			if (user != null)
+			try
 			{
-				return Ok(user);
+				var users = await _userRepository.GetFilteredAsync(x => x.Id == userId);
+				var user = users.FirstOrDefault();
+				if (user != null)
+				{
+					return Ok(user);
+				}
+			}
+			catch (Exception ex)
+			{
+				var currentUser = HttpContext.User;
+				var method = HttpContext.Request.Method;
+				var message = ex.Message;
+				_logger.LogError("The user {currentUser} triggered a {method} method and got the following exception message: {exception.Message}“", currentUser, method, message);
+				return StatusCode(500, ex.Message);
 			}
 			return BadRequest("No user with this id");
 		}
 		[HttpPost]
 		public async Task<ActionResult> AddUser(UserDTO user)
 		{
-			var result = await _userRepository.AddAsync(_mapper.Map<User>(user));
-			if (result == true)
+			try
 			{
-				return Ok("User succesfully added");
+				var result = await _userRepository.AddAsync(_mapper.Map<User>(user));
+				if (result == true)
+				{
+					return Ok("User succesfully added");
+				}
+			}
+			catch (Exception ex)
+			{
+				var currentUser = HttpContext.User;
+				var method = HttpContext.Request.Method;
+				var message = ex.Message;
+				_logger.LogError("The user {currentUser} triggered a {method} method and got the following exception message: {exception.Message}“", currentUser, method, message);
+				return StatusCode(500, ex.Message);
 			}
 			return BadRequest("User is not added succesfully");
 		}
-		[HttpPost("addRange")]
+		[HttpPost("range")]
 		public async Task<ActionResult> AddRange(IEnumerable<UserDTO> users)
 		{
-			foreach (var user in users)
+			try
 			{
-				var mappedUser = _mapper.Map<User>(user);
-				await _userRepository.AddAsync(mappedUser);
+				foreach (var user in users)
+				{
+					var mappedUser = _mapper.Map<User>(user);
+					await _userRepository.AddAsync(mappedUser);
+				}
+				if (users.Any())
+				{
+					return Ok("Users added succesfully");
+				}
 			}
-			if (users.Any())
+			catch (Exception ex)
 			{
-				return Ok("Users added succesfully");
+				var currentUser = HttpContext.User;
+				var method = HttpContext.Request.Method;
+				var message = ex.Message;
+				_logger.LogError("The user {currentUser} triggered a {method} method and got the following exception message: {exception.Message}“", currentUser, method, message);
+				return StatusCode(500, ex.Message);
 			}
 			return BadRequest("Users not added, wrong input");
 		}
 		[HttpDelete]
 		public async Task<ActionResult> RemoveUser(UserIdDTO user)
 		{
-			var result = await _userRepository.RemoveAsync(_mapper.Map<User>(user));
-			if (result == true)
+			try
 			{
-				return Ok("User removed");
+				var result = await _userRepository.RemoveAsync(_mapper.Map<User>(user));
+				if (result == true)
+				{
+					return Ok("User removed");
+				}
+			}
+			catch (Exception ex)
+			{
+				var currentUser = HttpContext.User;
+				var method = HttpContext.Request.Method;
+				var message = ex.Message;
+				_logger.LogError("The user {currentUser} triggered a {method} method and got the following exception message: {exception.Message}“", currentUser, method, message);
+				return StatusCode(500, ex.Message);
 			}
 			return BadRequest("User not removed");
 		}
-		[HttpDelete("removeRange")]
+		[HttpDelete("range")]
 		public async Task<ActionResult> RemoveRange(IEnumerable<UserIdDTO> users)
 		{
-			foreach (var user in users)
+			try
 			{
-				var mappedUser = _mapper.Map<User>(user);
-				await _userRepository.RemoveAsync(mappedUser);
+				foreach (var user in users)
+				{
+					var mappedUser = _mapper.Map<User>(user);
+					await _userRepository.RemoveAsync(mappedUser);
+				}
+				if (users.Any())
+				{
+					return Ok("Users succesfully deleted");
+				}
 			}
-			if (users.Any())
+			catch (Exception ex)
 			{
-				return Ok("Users succesfully deleted");
+				var currentUser = HttpContext.User;
+				var method = HttpContext.Request.Method;
+				var message = ex.Message;
+				_logger.LogError("The user {currentUser} triggered a {method} method and got the following exception message: {exception.Message}“", currentUser, method, message);
+				return StatusCode(500, ex.Message);
 			}
 			return BadRequest("Users are not deleted, wrong input");
 		}
