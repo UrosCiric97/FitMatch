@@ -1,6 +1,8 @@
 ﻿using API.DTOs;
+using Application.Users;
 using AutoMapper;
 using Domain;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Persistence;
 using Persistence.Repositories;
@@ -12,12 +14,14 @@ namespace API.Controllers
 	[ApiController]
 	public class UsersController : ControllerBase
 	{
+		private readonly IMediator _mediator;
 		private readonly IUserRepository _userRepository;
 		private readonly IMapper _mapper;
 		private readonly ILogger<User> _logger;
 
-		public UsersController(IUserRepository userRepository, IMapper mapper, ILogger<User> logger)
+		public UsersController(IUserRepository userRepository, IMapper mapper, ILogger<User> logger, IMediator mediator)
 		{
+			_mediator = mediator;
 			_userRepository = userRepository;
 			_mapper = mapper;
 			_logger = logger;
@@ -27,12 +31,13 @@ namespace API.Controllers
 		{
 			try
 			{
-				var result = await _userRepository.GetAllAsync();
+				throw new Exception();
+				var result = await _mediator.Send(new List.Query());
 				if (result.Any())
 				{
 					return Ok(result);
 				}
-			return NotFound("No users found");
+				return NotFound("No users found");
 			}
 			catch (Exception ex)
 			{
@@ -48,8 +53,7 @@ namespace API.Controllers
 		{
 			try
 			{
-				var users = await _userRepository.GetFilteredAsync(x => x.Id == userId);
-				var user = users.FirstOrDefault();
+				var user = await _mediator.Send(new Details.Query { Id = userId });
 				if (user != null)
 				{
 					return Ok(user);
@@ -111,16 +115,13 @@ namespace API.Controllers
 			}
 			return BadRequest("Users not added, wrong input");
 		}
-		[HttpDelete]
-		public async Task<ActionResult> RemoveUser(UserIdDTO user)
+		[HttpDelete("{id}")]
+		public async Task<ActionResult> RemoveUser(int id)
 		{
 			try
 			{
-				var result = await _userRepository.RemoveAsync(_mapper.Map<User>(user));
-				if (result == true)
-				{
-					return Ok("User removed");
-				}
+				await _mediator.Send(new Delete.Command { Id = id });
+				return Ok();
 			}
 			catch (Exception ex)
 			{
@@ -130,7 +131,6 @@ namespace API.Controllers
 				_logger.LogError("The user {currentUser} triggered a {method} method and got the following exception message: {exception.Message}“", currentUser, method, message);
 				return StatusCode(500, ex.Message);
 			}
-			return BadRequest("User not removed");
 		}
 		[HttpDelete("range")]
 		public async Task<ActionResult> RemoveRange(IEnumerable<UserIdDTO> users)
@@ -156,6 +156,15 @@ namespace API.Controllers
 				return StatusCode(500, ex.Message);
 			}
 			return BadRequest("Users are not deleted, wrong input");
+		}
+		[HttpPut("{id}")]
+		public async Task<IActionResult> EditUser(int id, User user)
+		{
+			user.Id = id;
+
+			await _mediator.Send(new Edit.Command { User = user });
+
+			return Ok();
 		}
 	}
 }

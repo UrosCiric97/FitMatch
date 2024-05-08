@@ -53,6 +53,7 @@ namespace Persistence
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<UserSkill>(x => x.HasKey(us => new { us.UserId, us.SkillId }));
+
             modelBuilder.Entity<UserSkill>()
                 .HasOne(u => u.User)
                 .WithMany(s => s.Skills)
