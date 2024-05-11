@@ -1,4 +1,4 @@
-﻿using API.DTOs;
+﻿using Domain.DTOs;
 using Application.Users;
 using AutoMapper;
 using Domain;
@@ -31,7 +31,6 @@ namespace API.Controllers
 		{
 			try
 			{
-				throw new Exception();
 				var result = await _mediator.Send(new List.Query());
 				if (result.Any())
 				{
@@ -74,11 +73,8 @@ namespace API.Controllers
 		{
 			try
 			{
-				var result = await _userRepository.AddAsync(_mapper.Map<User>(user));
-				if (result == true)
-				{
-					return Ok("User succesfully added");
-				}
+				await _mediator.Send(new Create.Command { User = user });
+				return Ok();
 			}
 			catch (Exception ex)
 			{
@@ -88,22 +84,14 @@ namespace API.Controllers
 				_logger.LogError("The user {currentUser} triggered a {method} method and got the following exception message: {exception.Message}“", currentUser, method, message);
 				return StatusCode(500, ex.Message);
 			}
-			return BadRequest("User is not added succesfully");
 		}
 		[HttpPost("range")]
 		public async Task<ActionResult> AddRange(IEnumerable<UserDTO> users)
 		{
 			try
 			{
-				foreach (var user in users)
-				{
-					var mappedUser = _mapper.Map<User>(user);
-					await _userRepository.AddAsync(mappedUser);
-				}
-				if (users.Any())
-				{
-					return Ok("Users added succesfully");
-				}
+				await _mediator.Send(new CreateList.Command { Users = users });
+				return Ok();
 			}
 			catch (Exception ex)
 			{

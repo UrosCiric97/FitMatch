@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Domain;
+using Domain.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,10 @@ namespace Application.Core
 	{
         public MappingProfiles()
         {
-            CreateMap<User, User>();
+            CreateMap<UserDTO, User>();
+            CreateMap<User, UserDTO>();
+            CreateMap<UserIdDTO, User>();
+            CreateMap<User, UserIdDTO>();
         }
     }
 }

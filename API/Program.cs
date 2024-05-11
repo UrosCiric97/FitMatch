@@ -1,5 +1,6 @@
 using API.Helpers;
 using API.Middlewares;
+using Application.Core;
 using Application.Users;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -20,7 +21,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 builder.Services.AddScoped<IUserSkillRepository, UserSkillRepository>();
 
-builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 builder.Services.AddDbContext<DataContext>(options => {
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
